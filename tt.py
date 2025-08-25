@@ -1,15 +1,12 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVR
 from sklearn.neural_network import MLPRegressor
-from sklearn.metrics import r2_score
-from sklearn.inspection import permutation_importance
+
 
 # =============================
 # تنظیمات اپ
@@ -90,4 +87,5 @@ if uploaded_file is not None:
         # =============================
 
         # ۱) R² مقایسه‌ای
+
 
