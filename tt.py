@@ -18,7 +18,7 @@ st.title("📊 Modeling App (SVR, MLP, Ensemble)")
 # =============================
 # Please replace this URL with the raw link to your Excel file on GitHub.
 # Example: 'https://raw.githubusercontent.com/user/repo/branch/path/to/your_file.xlsx'
-github_url = "https://github.com/streamlit/datasets/raw/main/iris_with_missing_data.xlsx"
+github_url = "https://github.com/amirsatarirad/test/blob/main/tarmim3.xlsx"
 
 try:
     dataset = pd.read_excel(github_url)
@@ -103,3 +103,4 @@ try:
 except Exception as e:
     st.error(f"Error loading the dataset from GitHub. Please ensure the URL is correct and the file is a valid Excel (.xlsx) file.")
     st.code(f"Error details: {e}")
+
