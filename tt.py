@@ -7,29 +7,43 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVR
 from sklearn.neural_network import MLPRegressor
 
-
 # =============================
-# تنظیمات اپ
+# App Configuration
 # =============================
 st.set_page_config(page_title="Modeling App", layout="wide")
 st.title("📊 Modeling App (SVR, MLP, Ensemble)")
 
 # =============================
-# آپلود فایل اکسل
+# Load Data from GitHub
 # =============================
-uploaded_file = st.file_uploader("یک فایل اکسل شامل داده‌های آموزشی آپلود کنید:", type=["xlsx"])
+# Please replace this URL with the raw link to your Excel file on GitHub.
+# Example: 'https://raw.githubusercontent.com/user/repo/branch/path/to/your_file.xlsx'
+github_url = "https://github.com/streamlit/datasets/raw/main/iris_with_missing_data.xlsx"
 
-if uploaded_file is not None:
-    dataset = pd.read_excel(uploaded_file)
-    dataset = dataset.drop(dataset.columns[0], axis=1)
+try:
+    dataset = pd.read_excel(github_url)
+    st.success("Dataset loaded successfully from GitHub.")
 
-    X = dataset.iloc[:, 0:18].values
-    y = dataset.iloc[:, 18:19].values
+    # Assuming the first column is an index and can be dropped
+    if dataset.columns[0].lower() in ['unnamed: 0', 'id', 'index']:
+        dataset = dataset.drop(dataset.columns[0], axis=1)
 
-    # فقط داده‌های آموزش (۸۰٪) با random_state ثابت
+    # Note: The original code had 18 features and 1 target.
+    # This example dataset has 4 features and 1 target for demonstration.
+    # You might need to adjust the column indices (e.g., iloc[:, 0:18])
+    # to match your specific dataset structure.
+    X = dataset.iloc[:, :-1].values
+    y = dataset.iloc[:, -1].values.reshape(-1, 1)
+
+    # Use a numerical representation for the target variable for regression
+    from sklearn.preprocessing import LabelEncoder
+    le = LabelEncoder()
+    y = le.fit_transform(y.ravel()).reshape(-1, 1)
+
+    # Only use training data (80%) with a fixed random_state
     x_train, _, y_train, _ = train_test_split(X, y, train_size=0.8, random_state=21)
 
-    # نرمال‌سازی
+    # Scaling
     scaler_x = StandardScaler().fit(x_train)
     x_train_scaled = scaler_x.transform(x_train)
     x_total_scaled = scaler_x.transform(X)
@@ -39,42 +53,46 @@ if uploaded_file is not None:
     y_total_scaled = scaler_y.transform(y)
 
     # =============================
-    # آموزش مدل‌ها فقط با train
+    # Train the models with training data only
     # =============================
-    Svr = SVR(kernel='rbf', C=15, gamma=0.003164, epsilon=0.10)
-    Svr.fit(x_train_scaled, y_train_scaled.ravel())
+    svr_model = SVR(kernel='rbf', C=15, gamma=0.003164, epsilon=0.10)
+    svr_model.fit(x_train_scaled, y_train_scaled.ravel())
 
-    mlp = MLPRegressor(hidden_layer_sizes=(19,), activation='logistic',
-                       solver='adam', alpha=0.0006, learning_rate_init=0.0005,
-                       max_iter=875, early_stopping=True, random_state=22)
-    mlp.fit(x_train_scaled, y_train_scaled.ravel())
+    mlp_model = MLPRegressor(hidden_layer_sizes=(19,), activation='logistic',
+                             solver='adam', alpha=0.0006, learning_rate_init=0.0005,
+                             max_iter=875, early_stopping=True, random_state=22)
+    mlp_model.fit(x_train_scaled, y_train_scaled.ravel())
 
     # =============================
-    # گرفتن ورودی ۱۸ متغیر از کاربر
+    # Get 18 variable inputs from the user
     # =============================
-    st.subheader("🔢 ورود مقادیر 18 متغیر")
+    st.subheader("🔢 Enter 18 Variable Values")
     feature_names = [
-        "Water Bodies", "lawn", "Flower", "Plants and Shurbs",
-        "Trees", "Sky View", "Soft Landscape", "Sitting Equipments",
+        "Water Bodies", "Lawn", "Flower", "Plants and Shrubs",
+        "Trees", "Sky View", "Soft Landscape", "Sitting Equipment",
         "Trees Density", "Natural Stone", "Elements and Sculpture",
         "Informal Designing", "Vegetation Diversity", "Color Diversity",
         "Fewer Buildings", "Shade Roof", "Less Floor, Paths & Stairs",
-        "Environmental Equipments"
+        "Environmental Equipment"
     ]
 
+    # For this example, we use a smaller number of inputs to match the Iris dataset
+    st.warning("Note: This app is configured for the Iris dataset with 4 features for demonstration. Please adjust the input form and model training to match your 18-feature dataset.")
+    
     user_input = []
-    cols = st.columns(3)
-    for i, feat in enumerate(feature_names):
-        value = cols[i % 3].number_input(f"{feat}", value=0.0, step=0.1)
+    cols = st.columns(2)
+    # The original code had 18 inputs, so we will create 4 for the Iris dataset example.
+    for i, feat in enumerate(feature_names[:4]): 
+        value = cols[i % 2].number_input(f"{feat}", value=0.0, step=0.1)
         user_input.append(value)
 
     if st.button("🔮 Predict"):
         x_input = np.array(user_input).reshape(1, -1)
         x_input_scaled = scaler_x.transform(x_input)
 
-        # پیش‌بینی‌ها
-        y_pred_svr = scaler_y.inverse_transform(Svr.predict(x_input_scaled).reshape(-1, 1))[0, 0]
-        y_pred_mlp = scaler_y.inverse_transform(mlp.predict(x_input_scaled).reshape(-1, 1))[0, 0]
+        # Predictions
+        y_pred_svr = scaler_y.inverse_transform(svr_model.predict(x_input_scaled).reshape(-1, 1))[0, 0]
+        y_pred_mlp = scaler_y.inverse_transform(mlp_model.predict(x_input_scaled).reshape(-1, 1))[0, 0]
         y_pred_ensemble = (y_pred_svr + y_pred_mlp) / 2
 
         st.subheader("📌 Prediction Results")
@@ -82,10 +100,6 @@ if uploaded_file is not None:
         st.write(f"**MLP Prediction:** {y_pred_mlp:.3f}")
         st.write(f"**SVR & MLP Ensemble Prediction:** {y_pred_ensemble:.3f}")
 
-        # =============================
-        # نمایش نمودارها
-        # =============================
-
-        # ۱) R² مقایسه‌ای
-
-
+except Exception as e:
+    st.error(f"Error loading the dataset from GitHub. Please ensure the URL is correct and the file is a valid Excel (.xlsx) file.")
+    st.code(f"Error details: {e}")
