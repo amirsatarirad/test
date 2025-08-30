@@ -7,20 +7,11 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVR
 from sklearn.neural_network import MLPRegressor
 
-
-# =============================
-# تنظیمات اپ
-# =============================
-file_url = "https://raw.githubusercontent.com/amirsatarirad/test/refs/heads/main/tarmim3.xlsx" # لینک مورد نظر خود را اینجا قرار دهید
+file_url = "https://raw.githubusercontent.com/amirsatarirad/test/refs/heads/main/tarmim3.xlsx"
 
 st.set_page_config(page_title="Modeling App", layout="wide")
 st.title("📊 Modeling App (SVR, MLP, Ensemble)")
 # =============================
-# آپلود فایل اکسل
-# =============================
-# uploaded_file = st.file_uploader("یک فایل اکسل شامل داده‌های آموزشی آپلود کنید:", type=["xlsx"])
-
-# if uploaded_file is not None:
 dataset = pd.read_excel(file_url)
 dataset = dataset.drop(dataset.columns[0], axis=1)
 
@@ -53,7 +44,7 @@ mlp.fit(x_train_scaled, y_train_scaled.ravel())
     # =============================
     # گرفتن ورودی ۱۸ متغیر از کاربر
     # =============================
-st.subheader("🔢 ورود مقادیر 18 متغیر")
+st.subheader("🔢Getting Variables")
 feature_names = [
     "Water Bodies", "lawn", "Flower", "Plants and Shurbs",
     "Trees", "Sky View", "Soft Landscape", "Sitting Equipments",
@@ -82,6 +73,7 @@ if st.button("🔮 Predict"):
     st.write(f"**SVR Prediction:** {y_pred_svr:.3f}")
     st.write(f"**MLP Prediction:** {y_pred_mlp:.3f}")
     st.write(f"**SVR & MLP Ensemble Prediction:** {y_pred_ensemble:.3f}")
+
 
 
 
