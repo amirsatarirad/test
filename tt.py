@@ -53,7 +53,7 @@ mlp.fit(x_train_scaled, y_train_scaled.ravel())
     # =============================
     # گرفتن ورودی ۱۸ متغیر از کاربر
     # =============================
-st.subheader("🔢 ورود مقادیر 18 متغیر")
+st.subheader("🔢 Getting amounts of Variable")
 feature_names = [
     "Water Bodies", "lawn", "Flower", "Plants and Shurbs",
     "Trees", "Sky View", "Soft Landscape", "Sitting Equipments",
@@ -82,6 +82,7 @@ if st.button("🔮 Predict"):
     st.write(f"**SVR Prediction:** {y_pred_svr:.3f}")
     st.write(f"**MLP Prediction:** {y_pred_mlp:.3f}")
     st.write(f"**SVR & MLP Ensemble Prediction:** {y_pred_ensemble:.3f}")
+
 
 
 
