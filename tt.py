@@ -59,8 +59,8 @@ feature_names = [
     "Trees (0-100%)", "Sky View (0-100%)", "Soft Landscape (0-100%)", "Sitting Equipments (0-100%)",
     "Trees Density (0-4)", "Natural Stone (0-100%)", "Elements and Sculpture (0-100%)",
     "Informal Designing (1-6)", "Vegetation Diversity(1-5)", "Color Diversity (1-10)",
-    "Fewer Buildings (0-100%)", "Shade Roof (0-100%)", "Less Floor (0-100%), Paths & Stairs (0-100%)",
-    "Environmental Equipments"
+    "Fewer Building (0-100%)", "Shade Roof (0-100%)", "Floor, Paths & Stairs (0-100%)",
+    "Environmental Equipments (0-100%)"
 ]
 
 user_input = []
@@ -82,6 +82,7 @@ if st.button("🔮 Predict"):
     st.write(f"**SVR Prediction:** {y_pred_svr:.3f}")
     st.write(f"**MLP Prediction:** {y_pred_mlp:.3f}")
     st.write(f"**SVR & MLP Ensemble Prediction:** {y_pred_ensemble:.3f}")
+
 
 
 
