@@ -18,7 +18,7 @@ st.title("📊 Modeling App (SVR, MLP, Ensemble)")
 # =============================
 # آپلود فایل اکسل
 # =============================
-uploaded_file = st.file_uploader("یک فایل اکسل شامل داده‌های آموزشی آپلود کنید:", type=["xlsx"])
+# uploaded_file = st.file_uploader("یک فایل اکسل شامل داده‌های آموزشی آپلود کنید:", type=["xlsx"])
 
 # if uploaded_file is not None:
 dataset = pd.read_excel(file_url)
@@ -82,6 +82,7 @@ if st.button("🔮 Predict"):
     st.write(f"**SVR Prediction:** {y_pred_svr:.3f}")
     st.write(f"**MLP Prediction:** {y_pred_mlp:.3f}")
     st.write(f"**SVR & MLP Ensemble Prediction:** {y_pred_ensemble:.3f}")
+
 
 
 
