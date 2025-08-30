@@ -28,7 +28,7 @@ X = dataset.iloc[:, 0:18].values
 y = dataset.iloc[:, 18:19].values
 
 # فقط داده‌های آموزش (۸۰٪) با random_state ثابت
-x_train, _, y_train, _ = train_test_split(X, y, train_size=0.8, random_state=21)
+x_train, _, y_train, _ = train_test_split(X, y, train_size=1, random_state=21)
 
 # نرمال‌سازی
 scaler_x = StandardScaler().fit(x_train)
@@ -82,6 +82,7 @@ if st.button("🔮 Predict"):
     st.write(f"**SVR Prediction:** {y_pred_svr:.3f}")
     st.write(f"**MLP Prediction:** {y_pred_mlp:.3f}")
     st.write(f"**SVR & MLP Ensemble Prediction:** {y_pred_ensemble:.3f}")
+
 
 
 
