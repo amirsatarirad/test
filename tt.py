@@ -50,9 +50,8 @@ mlp = MLPRegressor(hidden_layer_sizes=(19,), activation='logistic',
                     max_iter=875, early_stopping=True, random_state=22)
 mlp.fit(x_train_scaled, y_train_scaled.ravel())
 
-    # =============================
-    # گرفتن ورودی ۱۸ متغیر از کاربر
-    # =============================
+# Getting amounts of Variables
+# =============================
 st.subheader("🔢 Getting amounts of Variables")
 feature_names = [
     "Water Bodies (0-100%)", "lawn (0-100%)", "Flower (0-100%)", "Plants and Shurbs (0-100%)",
@@ -68,8 +67,11 @@ cols = st.columns(3)
 for i, feat in enumerate(feature_names):
     value = cols[i % 3].number_input(f"{feat}", value=0.0, step=0.1)
     user_input.append(value)
-
-if st.button("🔮 Predict"):
+if max(user_input) != 0:
+    st.subheader("📌 Prediction Results")
+    st.write("prediction can't be done")
+  
+else st.button("🔮 Predict"):
     x_input = np.array(user_input).reshape(1, -1)
     x_input_scaled = scaler_x.transform(x_input)
 
@@ -82,6 +84,7 @@ if st.button("🔮 Predict"):
     st.write(f"**SVR Prediction:** {y_pred_svr:.3f}")
     st.write(f"**MLP Prediction:** {y_pred_mlp:.3f}")
     st.write(f"**SVR & MLP Ensemble Prediction:** {y_pred_ensemble:.3f}")
+
 
 
 
