@@ -67,9 +67,7 @@ cols = st.columns(3)
 for i, feat in enumerate(feature_names):
     value = cols[i % 3].number_input(f"{feat}", value=0.0, step=0.1)
     user_input.append(value)
-if max(user_input) != 0:
-
-    st.button("🔮 Predict")
+if  st.button("🔮 Predict"):
     x_input = np.array(user_input).reshape(1, -1)
     x_input_scaled = scaler_x.transform(x_input)
     if user_input==[] or max(user_input) == 0:
@@ -85,6 +83,7 @@ if max(user_input) != 0:
       st.write(f"**SVR Prediction:** {y_pred_svr:.3f}")
       st.write(f"**MLP Prediction:** {y_pred_mlp:.3f}")
       st.write(f"**SVR & MLP Ensemble Prediction:** {y_pred_ensemble:.3f}")
+
 
 
 
