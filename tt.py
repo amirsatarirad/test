@@ -22,7 +22,7 @@ st.title("📊 Modeling App (SVR, MLP, Ensemble)")
 dataset = pd.read_excel(file_url)
 st.write("*Data Loaded!*")
 
-; dataset = dataset.drop(dataset.columns[0], axis=1)
+# dataset = dataset.drop(dataset.columns[0], axis=1)
 
 X = dataset.iloc[:, 0:18].values
 y = dataset.iloc[:, 18:19].values
@@ -85,6 +85,7 @@ else:
     st.write(f"**SVR Prediction:** {y_pred_svr:.3f}")
     st.write(f"**MLP Prediction:** {y_pred_mlp:.3f}")
     st.write(f"**SVR & MLP Ensemble Prediction:** {y_pred_ensemble:.3f}")
+
 
 
 
