@@ -11,7 +11,7 @@ from sklearn.neural_network import MLPRegressor
 # =============================
 # تنظیمات اپ
 # =============================
-file_url = "https://github.com/amirsatarirad/test/raw/refs/heads/main/tarmim3.xlsx" # لینک مورد نظر خود را اینجا قرار دهید
+file_url = "https://raw.githubusercontent.com/amirsatarirad/test/refs/heads/main/tarmim3.xlsx" # لینک مورد نظر خود را اینجا قرار دهید
 
 st.set_page_config(page_title="Modeling App", layout="wide")
 st.title("📊 Modeling App (SVR, MLP, Ensemble)")
@@ -50,16 +50,17 @@ mlp = MLPRegressor(hidden_layer_sizes=(19,), activation='logistic',
                     max_iter=875, early_stopping=True, random_state=22)
 mlp.fit(x_train_scaled, y_train_scaled.ravel())
 
-# Getting amounts of Variables
-# =============================
-st.subheader("🔢 Getting amounts of Variables")
+    # =============================
+    # گرفتن ورودی ۱۸ متغیر از کاربر
+    # =============================
+st.subheader("🔢 ورود مقادیر 18 متغیر")
 feature_names = [
-    "Water Bodies (0-100%)", "lawn (0-100%)", "Flower (0-100%)", "Plants and Shurbs (0-100%)",
-    "Trees (0-100%)", "Sky View (0-100%)", "Soft Landscape (0-100%)", "Sitting Equipments (0-100%)",
-    "Trees Density (0-4)", "Natural Stone (0-100%)", "Elements and Sculpture (0-100%)",
-    "Informal Designing (1-6)", "Vegetation Diversity(1-5)", "Color Diversity (1-10)",
-    "Fewer Building (0-100%)", "Shade Roof (0-100%)", "Floor, Paths & Stairs (0-100%)",
-    "Environmental Equipments (0-100%)"
+    "Water Bodies", "lawn", "Flower", "Plants and Shurbs",
+    "Trees", "Sky View", "Soft Landscape", "Sitting Equipments",
+    "Trees Density", "Natural Stone", "Elements and Sculpture",
+    "Informal Designing", "Vegetation Diversity", "Color Diversity",
+    "Fewer Buildings", "Shade Roof", "Less Floor, Paths & Stairs",
+    "Environmental Equipments"
 ]
 
 user_input = []
@@ -67,12 +68,8 @@ cols = st.columns(3)
 for i, feat in enumerate(feature_names):
     value = cols[i % 3].number_input(f"{feat}", value=0.0, step=0.1)
     user_input.append(value)
-if max(user_input) != 0:
-    st.subheader("📌 Prediction Results")
-    st.write("prediction can't be done")
-  
-else:
-    st.button("🔮 Predict")
+
+if st.button("🔮 Predict"):
     x_input = np.array(user_input).reshape(1, -1)
     x_input_scaled = scaler_x.transform(x_input)
 
@@ -85,16 +82,6 @@ else:
     st.write(f"**SVR Prediction:** {y_pred_svr:.3f}")
     st.write(f"**MLP Prediction:** {y_pred_mlp:.3f}")
     st.write(f"**SVR & MLP Ensemble Prediction:** {y_pred_ensemble:.3f}")
-
-
-
-
-
-
-
-
-
-
 
 
 
