@@ -71,7 +71,8 @@ if max(user_input) != 0:
     st.subheader("📌 Prediction Results")
     st.write("prediction can't be done")
   
-else st.button("🔮 Predict"):
+else:
+    st.button("🔮 Predict"):
     x_input = np.array(user_input).reshape(1, -1)
     x_input_scaled = scaler_x.transform(x_input)
 
