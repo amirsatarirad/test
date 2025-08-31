@@ -16,15 +16,13 @@ file_url = 'https://raw.githubusercontent.com/amirsatarirad/test/refs/heads/main
 st.set_page_config(page_title="Modeling App", layout="wide")
 st.title("📊 Modeling App (SVR, MLP, Ensemble)")
 # =============================
-# آپلود فایل اکسل
-# =============================
-# uploaded_file = st.file_uploader("یک فایل اکسل شامل داده‌های آموزشی آپلود کنید:", type=["xlsx"])
+
 
 # if uploaded_file is not None:
-
 dataset = pd.read_excel(file_url)
-# dataset = dataset.drop(dataset.columns[0], axis=1)
-st.subheader("📌 Data loaded")
+st.write("*Data Loaded!*")
+
+; dataset = dataset.drop(dataset.columns[0], axis=1)
 
 X = dataset.iloc[:, 0:18].values
 y = dataset.iloc[:, 18:19].values
@@ -52,17 +50,16 @@ mlp = MLPRegressor(hidden_layer_sizes=(19,), activation='logistic',
                     max_iter=875, early_stopping=True, random_state=22)
 mlp.fit(x_train_scaled, y_train_scaled.ravel())
 
-    # =============================
-    # گرفتن ورودی ۱۸ متغیر از کاربر
-    # =============================
-st.subheader("🔢 ورود مقادیر 18 متغیر")
+# Getting amounts of Variables
+# =============================
+st.subheader("🔢 Getting amounts of Variables")
 feature_names = [
-    "Water Bodies", "lawn", "Flower", "Plants and Shurbs",
-    "Trees", "Sky View", "Soft Landscape", "Sitting Equipments",
-    "Trees Density", "Natural Stone", "Elements and Sculpture",
-    "Informal Designing", "Vegetation Diversity", "Color Diversity",
-    "Fewer Buildings", "Shade Roof", "Less Floor, Paths & Stairs",
-    "Environmental Equipments"
+    "Water Bodies (0-100%)", "lawn (0-100%)", "Flower (0-100%)", "Plants and Shurbs (0-100%)",
+    "Trees (0-100%)", "Sky View (0-100%)", "Soft Landscape (0-100%)", "Sitting Equipments (0-100%)",
+    "Trees Density (0-4)", "Natural Stone (0-100%)", "Elements and Sculpture (0-100%)",
+    "Informal Designing (1-6)", "Vegetation Diversity(1-5)", "Color Diversity (1-10)",
+    "Fewer Building (0-100%)", "Shade Roof (0-100%)", "Floor, Paths & Stairs (0-100%)",
+    "Environmental Equipments (0-100%)"
 ]
 
 user_input = []
@@ -70,8 +67,12 @@ cols = st.columns(3)
 for i, feat in enumerate(feature_names):
     value = cols[i % 3].number_input(f"{feat}", value=0.0, step=0.1)
     user_input.append(value)
+if max(user_input) != 0:
+    st.subheader("📌 Prediction Results")
+    st.write("prediction can't be done")
 
-if st.button("🔮 Predict"):
+else:
+    st.button("🔮 Predict")
     x_input = np.array(user_input).reshape(1, -1)
     x_input_scaled = scaler_x.transform(x_input)
 
@@ -84,6 +85,9 @@ if st.button("🔮 Predict"):
     st.write(f"**SVR Prediction:** {y_pred_svr:.3f}")
     st.write(f"**MLP Prediction:** {y_pred_mlp:.3f}")
     st.write(f"**SVR & MLP Ensemble Prediction:** {y_pred_ensemble:.3f}")
+
+
+
 
 
 
