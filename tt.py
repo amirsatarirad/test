@@ -11,7 +11,7 @@ from sklearn.neural_network import MLPRegressor
 # =============================
 # تنظیمات اپ
 # =============================
-file_url = "https://amirsatarirad.ir/wp-content/uploads/2025/08/t.xlsx" # لینک مورد نظر خود را اینجا قرار دهید
+file_url = 'https://raw.githubusercontent.com/amirsatarirad/test/refs/heads/main/t.xlsx' 
 
 st.set_page_config(page_title="Modeling App", layout="wide")
 st.title("📊 Modeling App (SVR, MLP, Ensemble)")
@@ -84,6 +84,7 @@ if st.button("🔮 Predict"):
     st.write(f"**SVR Prediction:** {y_pred_svr:.3f}")
     st.write(f"**MLP Prediction:** {y_pred_mlp:.3f}")
     st.write(f"**SVR & MLP Ensemble Prediction:** {y_pred_ensemble:.3f}")
+
 
 
 
