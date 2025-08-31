@@ -72,7 +72,7 @@ if max(user_input) != 0:
     st.write("prediction can't be done")
   
 else:
-    st.button("🔮 Predict"):
+    st.button("🔮 Predict")
     x_input = np.array(user_input).reshape(1, -1)
     x_input_scaled = scaler_x.transform(x_input)
 
@@ -85,6 +85,7 @@ else:
     st.write(f"**SVR Prediction:** {y_pred_svr:.3f}")
     st.write(f"**MLP Prediction:** {y_pred_mlp:.3f}")
     st.write(f"**SVR & MLP Ensemble Prediction:** {y_pred_ensemble:.3f}")
+
 
 
 
